@@ -28,13 +28,15 @@ Organizare
 
 Implementare
 -
-* Am implementat întregul enunț al temei. Nu am utilizat funcții extra și nu există funcționalități lipsă.
+* Am implementat întregul enunț al temei, cu excepția unittest și logging, deoarece nu sunt suficient de sigură cum să le folosesc, și nu am vrut să îmi afecteze cumva rezultatul testelor rulate pe codul simplu. 
+* Nu am utilizat funcții extra și nu există funcționalități lipsă.
 
 * Lucruri interesante descoperite pe parcurs și dificultăți întâmpinate:
 
 * Inițial, am considerat că nu este necesar să folosesc vreun lock, însă după mai multe ore petrecute documentându-mă pe tema acestuia, l-am implementat în zonele specificate mai sus din fișierul marketplace.py.
 * Mi s-a parut foarte interesant să descopăr despre existența dicționarelor în Python, care nu există în limbajul C. Mi s-a parut interesantă distincția dintre liste, tupluri și dicționare.
-
+* Pylint a fost util pentru că am reușit să-mi formatez codul mult mai eficient cu ajutorul său, 
+* nu l-am mai folosit până acum și mi s-a parut chiar ingenios.
 
 
 Resurse utilizate

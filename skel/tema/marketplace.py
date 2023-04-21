@@ -9,7 +9,6 @@ Codescu Elisabeta Maria, grupa 331AC
 
 """
 import threading
-import time
 
 class Marketplace:
     """
@@ -25,21 +24,27 @@ class Marketplace:
         """
         self.queue_size_per_producer = queue_size_per_producer
 
-        #Pe masura ce mai apare un producator sau un client, le va fi atribuit un producer_id sau un cart_id
-        #in functie de valoarea curenta a atributelor producer_ids si cart_ids, in metodele register_producer
-        #si new_cart, definite mai jos. Initial, acestea sunt 0 pentru ca marketplace-ul nu a fost inca populat:
-
+        """Pe masura ce mai apare un producator sau un client, le va fi atribuit 
+        un producer_id sau un cart_id
+        #in functie de valoarea curenta a atributelor producer_ids si cart_ids, 
+        in metodele register_producer
+        #si new_cart, definite mai jos. Initial, acestea sunt 0 pentru ca marketplace-ul 
+        nu a fost inca populat:
+        """
         self.producer_ids =  0
         self.cart_ids = 0
 
-        #Fiecare producator "producer_id" va avea anumite produse asociate. Folosim un dictionar pentru a
-        #pastra evidenta producatorilor si a produselor lor
+        """Fiecare producator "producer_id" va avea anumite produse asociate. Folosim un 
+        dictionar pentru a pastra evidenta producatorilor si a produselor lor
+        """
 
         self.dictionary_of_producers = {}
 
-        #Fiecare cos de cumparaturi cart_id contine diverse produse de la diversi producatori. Din nou
-        #folosim un dictionar care va avea cheie fiecare cart_id si valoarea cheii va fi lista de produse
-        #si producatorul corespunzator
+        """Fiecare cos de cumparaturi cart_id contine diverse produse de la 
+        diversi producatori. Din nou folosim un dictionar care va avea cheie 
+        fiecare cart_id si valoarea cheii va fi lista de produse
+        si producatorul corespunzator
+        """
 
         self.dictionary_of_carts = {}
 
@@ -79,7 +84,6 @@ class Marketplace:
             return True
 
 
-
     def new_cart(self):
         """
         Creates a new cart for the consumer
@@ -107,16 +111,20 @@ class Marketplace:
         """
         for i in self.dictionary_of_producers:
 
-            #Se itereaza prin produsele fiecarui producator pentru a se putea gasi obiectul dorit
-            #si pentru a se adauga in cos:
+            """
+            Se itereaza prin produsele fiecarui producator pentru a se putea gasi 
+            obiectul dorit si pentru a se adauga in cos:
+            """
 
             if product in self.dictionary_of_producers[i]:
 
                 item = (product, i)
                 self.dictionary_of_carts[cart_id].append(item)
 
-                #Produsul a fost gasit si adaugat in cos, deci devine indisponibil pentru ceilalti clienti
-
+                """
+                Produsul a fost gasit si adaugat in cos, deci devine 
+                indisponibil pentru ceilalti clienti
+                """
                 self.dictionary_of_producers[i].remove(product)
 
                 return True
@@ -132,25 +140,31 @@ class Marketplace:
         :type product: Product
         :param product: the product to remove from cart
         """
-        #Se itereaza prin toate produsele din cosul cart_id pentru a se putea identifica care
+        """Se itereaza prin toate produsele din cosul cart_id pentru a se putea identifica care
         #este produsul care trebuie scos din cos
+        """
 
         for product_to_return in self.dictionary_of_carts[cart_id]:
 
             product_to_return_name = product_to_return[0]
 
             if product == product_to_return_name:
-
+                """
                 #Produsul redevine disponibil pentru ceilalti clienti
-                #Valoarea cheii cart_id este o lista care are 2 elemente, mereu al doilea element fiind
-                #id-ul producatorului caruia ii apartine produsul. Astfel, ne folosim de product_to_return[1]
-                #pentru a putea afla idul producatorlui in lista caruia trebuie sa readaugam produsul
-
+                #Valoarea cheii cart_id este o lista care are 2 elemente, 
+                mereu al doilea element fiind id-ul producatorului caruia ii 
+                apartine produsul. Astfel, ne folosim de product_to_return[1]
+                pentru a putea afla idul producatorlui in lista caruia 
+                trebuie sa readaugam produsul
+                """
                 product_to_return_producer = product_to_return[1]
                 self.dictionary_of_producers[product_to_return_producer].append(product)
 
-                #Produsul este abia acum scos din cos, deoarece daca l-am fi scos inainte, am fi pierdut
-                #idul producatorului sau si nu am fi stiut in lista carui producator sa il readaugam
+                """
+                Produsul este abia acum scos din cos, deoarece daca 
+                l-am fi scos inainte, am fi pierdut idul producatorului sau 
+                si nu am fi stiut in lista carui producator sa il readaugam
+                """
 
                 self.dictionary_of_carts[cart_id].remove(product_to_return)
                 return
@@ -162,10 +176,13 @@ class Marketplace:
         :type cart_id: Int
         :param cart_id: id cart
         """
-        #Se parcurge cosul corespunzator idului primit la apelarea functiei, adaugandu-se fiecare produs pe bon
-        #La final, clientul si-a finalizat cumparaturile si bonul a fost inchis, deci nu mai e nevoie de cosul
-        #de cumparaturi cart_id. Acesta este sters din dictionarul cu cosuri de cumparaturi in uz
-
+        """
+        Se parcurge cosul corespunzator idului primit la apelarea functiei,
+        adaugandu-se fiecare produs pe bon. La final, clientul si-a finalizat
+        cumparaturile si bonul a fost inchis, deci nu mai e nevoie de cosul
+        de cumparaturi cart_id. Acesta este sters din dictionarul cu 
+        cosuri de cumparaturi in uz
+        """
         bon = []
 
         for product_to_buy in self.dictionary_of_carts[cart_id]:

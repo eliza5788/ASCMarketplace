@@ -58,17 +58,18 @@ class Producer(Thread):
                 timp_asteptare = product[2]
 
                 """
-                Se itereaza prin fiecare cantitate aleasa pentru fiecare dintre produsele din lista products,
-                cu ajutorul unui for in interiorul altui for. Atata timp cat un anumit produs nu poate fi inca
-                publicat in Marketplace, se asteapta pentru o anumita perioada de timp pana cand se reincearca
-                din nou, adica republish_wait_time. Atunci cand in sfarsit se poate publica produsul respectiv,
-                se asteapta perioada de timp specificata in timp_asteptare pentru produsul respectiv, care este
-                necesara pentru fabricarea/pregatirea efectiva a produsului. Pentru aceste asteptari,
+                Se itereaza prin fiecare cantitate aleasa pentru fiecare dintre 
+                produsele din lista products, cu ajutorul unui for in interiorul
+                altui for. Atata timp cat un anumit produs nu poate fi inca
+                publicat in Marketplace, se asteapta pentru o anumita perioada
+                de timp pana cand se reincearca din nou, adica republish_wait_time. 
+                Atunci cand in sfarsit se poate publica produsul respectiv,
+                se asteapta perioada de timp specificata in timp_asteptare pentru 
+                produsul respectiv, care este necesara pentru fabricarea/
+                pregatirea efectiva a produsului. Pentru aceste asteptari,
                 utilizam functia sleep din biblioteca time.
                 """
                 for i in range(cantitate):
                     while self.marketplace.publish(self.producer_id, produs) is False:
                         time.sleep(self.republish_wait_time)
                     time.sleep(timp_asteptare)
-
-
